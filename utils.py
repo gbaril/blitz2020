@@ -19,7 +19,7 @@ def min_dist_enemy_to_tail(game_message: GameMessage):
         if player.id != me.id:
             path = bfs(grille, player.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE], [TileType.TAIL])
             dist = len(path)
-            print(dist)
+            print(path)
             if dist < min_dist:
                 min_dist = dist
 

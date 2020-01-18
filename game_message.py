@@ -41,8 +41,6 @@ class Point:
     y: int
     def __hash__(self):
         return hash((self.y, self.x))
-    def totup(self):
-        return (self.y, self.x)
 
 
 @dataclass
