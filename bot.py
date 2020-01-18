@@ -4,6 +4,36 @@ from bot_message import *
 import random
 from utils import *
 
+def move_for_next_position(start, dest, direction):
+    delta = (dest.x - start.x, dest.y - start.y)
+
+    if direction == Direction.LEFT and delta == (-1, 0):
+        return Move.FORWARD
+    elif direction == Direction.LEFT and delta == (0, 1):
+        return Move.TURN_RIGHT
+    elif direction == Direction.LEFT and delta == (0, -1):
+        return Move.TURN_LEFT
+
+    elif direction == Direction.RIGHT and delta == (1, 0):
+        return Move.FORWARD
+    elif direction == Direction.RIGHT and delta == (0, 1):
+        return Move.TURN_LEFT
+    elif direction == Direction.RIGHT and delta == (0, -1):
+        return Move.TURN_RIGHT
+
+    elif direction == Direction.UP and delta == (0, 1):
+        return Move.FORWARD
+    elif direction == Direction.UP and delta == (-1, 0):
+        return Move.TURN_LEFT
+    elif direction == Direction.UP and delta == (1, 0):
+        return Move.TURN_RIGHT
+
+    elif direction == Direction.DOWN and delta == (0, -1):
+        return Move.FORWARD
+    elif direction == Direction.DOWN and delta == (-1, 0):
+        return Move.TURN_RIGHT
+    elif direction == Direction.DOWN and delta == (1, 0):
+        return Move.TURN_LEFT
 
 class Bot:
 
@@ -17,7 +47,7 @@ class Bot:
         Here is where the magic happens, for now the moves are random. I bet you can do better ;)
         '''
         players_by_id: Dict[int, Player] = game_message.generate_players_by_id_dict()
-        
+
         print("Dist enemy to tail: {}".format(min_dist_enemy_to_tail(game_message)))
         print("Dist me to base: {}".format(min_dist_us_to_base(game_message)))
 
