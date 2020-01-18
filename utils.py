@@ -23,6 +23,34 @@ def min_dist_enemy_to_tail(game_message: GameMessage):
                     min_path = path
     return (min_dist, min_path)
 
+def min_dist_us_to_doritos(game_message: GameMessage):
+    min_dist = 1000000
+    min_path = None
+
+    me = get_me(game_message)
+    grille = game_message.game.map
+
+
+    for case in me.tail:
+        grille[case.y][case.x] = TileType.TAIL.value
+
+    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL.value
+
+    maxi = len(grille)
+    maxj = len(grille[0])
+
+    for i in range(maxi):
+        for j in range(maxj):
+            if grille[i][j] == TileType.BLITZIUM.value:
+                path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value], Point(j, i))
+                dist = len(path)
+                print(min_dist)
+                if dist <= min_dist:
+                    min_dist = dist
+                    min_path = path
+                
+    return (min_dist, min_path)
+
 def min_dist_us_to_enemy(game_message: GameMessage):
     min_dist = 1000000
     min_path = None
@@ -30,10 +58,15 @@ def min_dist_us_to_enemy(game_message: GameMessage):
     me = get_me(game_message)
     grille = game_message.game.map
 
+    for case in me.tail:
+        grille[case.y][case.x] = TileType.TAIL.value
+
+    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL.value
+
     for player in game_message.players:
         if player.id != me.id:
             for case in player.tail[1:]:
-                path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value], case)
+                path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], case)
                 dist = len(path)
                 if dist <= min_dist:
                     min_dist = dist

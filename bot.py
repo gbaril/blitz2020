@@ -4,7 +4,7 @@ from bot_message import *
 import random
 from utils import *
 from bfs_lib import bfs
-from attack import attack
+from attack import *
 
 def move_for_next_position(start, dest, direction):
     delta = (dest.x - start.x, dest.y - start.y)
@@ -55,7 +55,7 @@ class Bot:
         print("Dist enemy to tail: {}".format(min_dist_enemy_to_tail(game_message)))
         print("Dist me to base: {}".format(min_dist_us_to_base(game_message)))
 
-        direction = attack(game_message)
+        direction = attack_doritos(game_message)
         if direction is None:
             legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
             direction = random.choice(legal_moves)
