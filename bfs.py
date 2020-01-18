@@ -9,7 +9,6 @@ grille = [
     [0,0,0,0,0]
 ]
 
-
 # point: (i,j)
 def neighbors(grille, point):
     i,j = point.x, point.y
@@ -32,7 +31,6 @@ def backtrack(previous, end):
     while prev != previous[prev]:
         prev = previous[prev]
         points.insert(0, prev)
-    points.insert(0, prev)
 
     return points
 
@@ -43,6 +41,7 @@ def bfs(grille, root, obstacles, target):
     while queue:
         point = queue.popleft()
         seen.add(point)
+        #print(point)
 
         pi, pj = point.x, point.y
         if grille[pi][pj] in target:
