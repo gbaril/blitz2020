@@ -40,7 +40,7 @@ def min_dist_us_to_doritos(game_message: GameMessage):
                 obstacles = [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.OUR_TAIL.value]
                 path = bfs(grille, me.position, obstacles, Point(j, i))
                 dist = len(path)
-                print(min_dist)
+                #print(min_dist)
                 if dist <= min_dist:
                     min_dist = dist
                     min_path = path

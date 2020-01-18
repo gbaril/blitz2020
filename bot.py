@@ -59,16 +59,16 @@ class Bot:
 
             direction = run(game_message)
             if direction is None: #SI ON NE RUN PAS
-                direction = attack_doritos(game_message)
+                direction = doritos(game_message)
                 if direction is None: #SI PAS DE DORITOS, ENNEMY, RANDOM
-                    print("RANDOM")
+                    #print("RANDOM")
                     legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
                     direction = random.choice(legal_moves)
                 else:
-                    print("ATTACK")
+                    #print("ATTACK")
                     direction = move_for_next_position(me.position, direction, me.direction)
             else:
-                print("RUN")
+                ##print("RUN")
                 direction = move_for_next_position(me.position, direction, me.direction)
             return direction
         except:

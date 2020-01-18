@@ -57,4 +57,4 @@ def bfs(grille, root, obstacles, target):
                 queue.append(neighbor)
 
 if __name__ == "__main__":
-    print(bfs(grille, (2,0), obstacles=[1], target=[3]))
+    #print(bfs(grille, (2,0), obstacles=[1], target=[3]))

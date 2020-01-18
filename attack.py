@@ -28,7 +28,7 @@ def run(game_message: GameMessage):
     dist_ett, path_ett = min_dist_enemy_to_tail(game_message)
 
     if path_ett is None:
-        print("oops")
+        #print("oops")
         return None
 
     me = get_me(game_message)
@@ -41,7 +41,7 @@ def run(game_message: GameMessage):
 
     if dist_ett <= dist_utb + 3:
         return path_utb[1]
-    print("oh bou")
-    print("enemy to tail : {}".format(dist_ett))
-    print("us to base: {}".format(dist_utb))
+    #print("oh bou")
+    #print("enemy to tail : {}".format(dist_ett))
+    #print("us to base: {}".format(dist_utb))
     return None
