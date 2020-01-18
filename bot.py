@@ -52,7 +52,7 @@ class Bot:
         print(me.position)
 
         print("Dist enemy to tail: {}".format(min_dist_enemy_to_tail(game_message)))
-        #  print("Dist me to base: {}".format(min_dist_us_to_base(game_message)))
+        print("Dist me to base: {}".format(min_dist_us_to_base(game_message)))
 
         legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
 
@@ -76,7 +76,7 @@ class Bot:
 
         # You can print out a pretty version of the map but be aware that
         # printing out long strings can impact your bot performance (30 ms in average).
-        # print(game_message.game.pretty_map)
+        #print(game_message.game.pretty_map)
 
         return random.choice(legal_moves)
 

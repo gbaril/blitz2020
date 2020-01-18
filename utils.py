@@ -8,6 +8,7 @@ def get_me(game_message: GameMessage):
 
 def min_dist_enemy_to_tail(game_message: GameMessage):
     min_dist = 1000000
+    min_path = None
 
     me = get_me(game_message)
     grille = game_message.game.map
@@ -17,23 +18,48 @@ def min_dist_enemy_to_tail(game_message: GameMessage):
             for case in me.tail:
                 path = bfs(grille, player.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE], case)
                 dist = len(path)
-                print(path)
                 if dist < min_dist:
                     min_dist = dist
-    return min_dist
+                    min_path = path
+    return (min_dist, min_path)
 
 def min_dist_us_to_base(game_message: GameMessage):
     me = get_me(game_message)
     grille = game_message.game.map
 
     for case in me.tail:
-        grille[case.y][case.x] = TileType.TAIL.value
+        grille[case.y][case.x] = TileType.TAIL
 
-    end_tail = me.tail[0]
-    grille[end_tail.y][end_tail.x] = TileType.END_TAIL.value
+    our = TileType.CONQUERED.value + str(me.id)
 
-    print(grille)
-    path = bfs(grille, (me.position.x, me.position.y), [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], [TileType.END_TAIL.value, TileType.CONQUERED.value + str(me.id)])
+    maxi = len(grille)
+    maxj = len(grille[0])
 
-    print('fin us')
-    return len(path)
+    path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], me.tail[0])
+    min_dist = len(path)
+    min_path = path
+
+    for i in range(maxi):
+        for j in range(maxj):
+            if grille[i][j] == our:
+                tous_a_nous = True
+                if i > 0:
+                    if grille[i-1][j] == our:
+                        tous_a_nous = False
+                if j > 0:
+                    if grille[i][j-1] == our:
+                        tous_a_nous = False
+                if i < len(grille) - 1:
+                    if grille[i+1][j] == our:
+                        tous_a_nous = False
+                if j < len(grille[0]) - 1:
+                    if grille[i][j+1] == our:
+                        tous_a_nous = False
+                if not tous_a_nous:
+                    path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], Point(i, j))
+                    dist = len(path)
+                    if dist < min_dist:
+                        min_dist = dist
+                        min_path = path
+
+    return (min_dist, min_path)
