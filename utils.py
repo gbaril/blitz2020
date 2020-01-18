@@ -34,7 +34,7 @@ def min_dist_us_to_doritos(game_message: GameMessage):
     for case in me.tail:
         grille[case.y][case.x] = TileType.TAIL.value
 
-    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL.value
+    grille[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
 
     maxi = len(grille)
     maxj = len(grille[0])
@@ -61,7 +61,7 @@ def min_dist_us_to_enemy(game_message: GameMessage):
     for case in me.tail:
         grille[case.y][case.x] = TileType.TAIL.value
 
-    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL.value
+    grille[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
 
     for player in game_message.players:
         if player.id != me.id:
@@ -80,7 +80,7 @@ def min_dist_us_to_base(game_message: GameMessage):
     for case in me.tail:
         grille[case.y][case.x] = TileType.TAIL.value
 
-    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL.value
+    grille[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
 
     our = TileType.CONQUERED.value + str(me.id)
 
