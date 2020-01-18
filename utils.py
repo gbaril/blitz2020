@@ -31,24 +31,20 @@ def min_dist_us_to_doritos(game_message: GameMessage):
     grille = game_message.game.map
 
 
-    for case in me.tail:
-        grille[case.y][case.x] = TileType.TAIL.value
-
-    grille[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
-
     maxi = len(grille)
     maxj = len(grille[0])
 
     for i in range(maxi):
         for j in range(maxj):
             if grille[i][j] == TileType.BLITZIUM.value:
-                path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value], Point(j, i))
+                obstacles = [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.OUR_TAIL.value]
+                path = bfs(grille, me.position, obstacles, Point(j, i))
                 dist = len(path)
                 print(min_dist)
                 if dist <= min_dist:
                     min_dist = dist
                     min_path = path
-                
+
     return (min_dist, min_path)
 
 def min_dist_us_to_enemy(game_message: GameMessage):
@@ -58,15 +54,11 @@ def min_dist_us_to_enemy(game_message: GameMessage):
     me = get_me(game_message)
     grille = game_message.game.map
 
-    for case in me.tail:
-        grille[case.y][case.x] = TileType.TAIL.value
-
-    grille[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
-
     for player in game_message.players:
         if player.id != me.id:
             for case in player.tail[1:]:
-                path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], case)
+                obstacles = [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.OUR_TAIL.value]
+                path = bfs(grille, me.position, obstacles, case)
                 dist = len(path)
                 if dist <= min_dist:
                     min_dist = dist
@@ -77,17 +69,13 @@ def min_dist_us_to_base(game_message: GameMessage):
     me = get_me(game_message)
     grille = game_message.game.map
 
-    for case in me.tail:
-        grille[case.y][case.x] = TileType.TAIL.value
-
-    grille[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
-
     our = TileType.CONQUERED.value + str(me.id)
 
     maxi = len(grille)
     maxj = len(grille[0])
 
-    path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], me.tail[0])
+    obstacles = [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.OUR_TAIL.value]
+    path = bfs(grille, me.position, obstacles, me.tail[0])
     min_dist = len(path)
     min_path = path
 

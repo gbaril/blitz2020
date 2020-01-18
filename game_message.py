@@ -21,6 +21,7 @@ class TileType(Enum):
     CONQUERED_PLANET = "%-"
     TAIL = "-"
     END_TAIL = "_"
+    OUR_TAIL = "-*"
 
     @staticmethod
     def get_tile_type(raw_tile: str) -> 'TileType':
