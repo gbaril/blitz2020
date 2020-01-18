@@ -10,14 +10,15 @@ class Bot:
         '''
         This method should be use to initialize some variables you will need throughout the game.
         '''
+        self.index = 0
 
     def getNextMove(self):
         square = [Move.FORWARD, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD]
-        moveForward2 = Move.FORWARD + Move.FORWARD
-        sequence = square * 2 + moveForward2 + square + Move.TURN_RIGHT + square[1:] + moveForward2 + square + Move.TURN_RIGHT + moveForward2
+        moveForward2 = [Move.FORWARD, Move.FORWARD]
+        sequence = square * 2 + moveForward2 + square + [Move.TURN_RIGHT] + square[1:] + moveForward2 + square + [Move.TURN_RIGHT] + moveForward2
 
-        for move in sequence:
-            yield move 
+        self.index += 1
+        return sequence[self.index % len(sequence)]
 
 
 
