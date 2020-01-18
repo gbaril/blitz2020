@@ -40,12 +40,9 @@ class Point:
     x: int
     y: int
     def __hash__(self):
-        return hash((self.y, self.x))
+        return hash((self.x, self.y))
     def __eq__(self, other):
-        """Overrides the default implementation"""
-        if isinstance(other, Point):
-            return self.x == other.x and self.y == other.y
-        return False
+        return self.x == other.x and self.y == other.y
 
 
 @dataclass
