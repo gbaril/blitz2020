@@ -16,7 +16,7 @@ def min_dist_enemy_to_tail(game_message: GameMessage):
     for player in game_message.players:
         if player.id != me.id:
             for case in me.tail:
-                path = bfs(grille, player.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE], case)
+                path = bfs(grille, player.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value], case)
                 dist = len(path)
                 if dist < min_dist:
                     min_dist = dist
@@ -28,16 +28,16 @@ def min_dist_us_to_base(game_message: GameMessage):
     grille = game_message.game.map
 
     for case in me.tail:
-        grille[case.y][case.x] = TileType.TAIL
+        grille[case.y][case.x] = TileType.TAIL.value
 
-    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL
+    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL.value
 
     our = TileType.CONQUERED.value + str(me.id)
 
     maxi = len(grille)
     maxj = len(grille[0])
 
-    path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], me.tail[0])
+    path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], me.tail[0])
     min_dist = len(path)
     min_path = path
 
@@ -58,7 +58,7 @@ def min_dist_us_to_base(game_message: GameMessage):
                     if grille[i][j+1] == our:
                         tous_a_nous = False
                 if not tous_a_nous:
-                    path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], Point(i, j))
+                    path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], Point(i, j))
                     dist = len(path)
                     if dist < min_dist:
                         min_dist = dist
