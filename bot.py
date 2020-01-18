@@ -11,6 +11,16 @@ class Bot:
         This method should be use to initialize some variables you will need throughout the game.
         '''
 
+    def getNextMove(self):
+        square = [Move.FORWARD, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD]
+        moveForward2 = Move.FORWARD + Move.FORWARD
+        sequence = square * 2 + moveForward2 + square + Move.TURN_RIGHT + square[1:] + moveForward2 + square + Move.TURN_RIGHT + moveForward2
+
+        for move in sequence:
+            yield move 
+
+
+
     def get_next_move(self, game_message: GameMessage) -> Move:
         '''
         Here is where the magic happens, for now the moves are random. I bet you can do better ;)
@@ -19,12 +29,14 @@ class Bot:
 
         legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
 
+        return self.getNextMove()
+
 
         # You can print out a pretty version of the map but be aware that
         # printing out long strings can impact your bot performance (30 ms in average).
         # print(game_message.game.pretty_map)
 
-        return random.choice(legal_moves)
+        #return random.choice(legal_moves)
 
     def get_legal_moves_for_current_tick(self, game: Game, players_by_id: Dict[int, Player]) -> List[Move]:
         '''
@@ -37,3 +49,5 @@ class Bot:
         me: Player = players_by_id[game.player_id]
 
         return [move for move in Move]
+
+
