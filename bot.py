@@ -11,7 +11,10 @@ class Bot:
         This method should be use to initialize some variables you will need throughout the game.
         '''
         self.index = 0
-        self.lastPosition = Point(-10, -10)
+        self.lastPosition = Point(-10, -10) #offset out of bounds
+
+    def diedLastTick(self, me, game):
+        return abs(self.lastPosition.x - me.position.x) + abs(self.lastPosition.y - me.position.y) != 1
 
     def getNextMove(self):
 
@@ -31,8 +34,7 @@ class Bot:
         players_by_id: Dict[int, Player] = game_message.generate_players_by_id_dict()
 
         me = players_by_id[game_message.game.player_id]
-
-        if (abs(self.lastPosition.x - me.position.x) + abs(self.lastPosition.y - me.position.y) != 1):
+        if (self.diedLastTick(me, game_message.game)):
             self.index = 0
 
         self.lastPosition = me.position
