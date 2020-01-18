@@ -1,5 +1,5 @@
 from game_message import *
-from bfs import bfs
+from bfs_lib import bfs
 
 def get_me(game_message: GameMessage):
     for player in game_message.players:
@@ -11,20 +11,15 @@ def min_dist_enemy_to_tail(game_message: GameMessage):
 
     me = get_me(game_message)
     grille = game_message.game.map
-    
-    for case in me.tail:
-        grille[case.y][case.x] = TileType.TAIL.value
 
     for player in game_message.players:
         if player.id != me.id:
-            print(grille)
-            path = bfs(grille, (player.position.x, player.position.y), [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value], [TileType.TAIL.value])
-            dist = len(path)
-            #print(path)
-            if dist < min_dist:
-                min_dist = dist
-
-    print('fin enemy')
+            for case in me.tail:
+                path = bfs(grille, player.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE], case)
+                dist = len(path)
+                print(path)
+                if dist < min_dist:
+                    min_dist = dist
     return min_dist
 
 def min_dist_us_to_base(game_message: GameMessage):
