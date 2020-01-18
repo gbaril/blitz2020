@@ -19,6 +19,8 @@ class TileType(Enum):
     BLACK_HOLE = "!"
     CONQUERED = "C-"
     CONQUERED_PLANET = "%-"
+    TAIL = "-"
+    END_TAIL = "_"
 
     @staticmethod
     def get_tile_type(raw_tile: str) -> 'TileType':
@@ -37,6 +39,10 @@ class TileType(Enum):
 class Point:
     x: int
     y: int
+    def __hash__(self):
+        return hash((self.y, self.x))
+    def totup(self):
+        return (self.y, self.x)
 
 
 @dataclass

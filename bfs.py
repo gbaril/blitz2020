@@ -1,4 +1,5 @@
 import collections
+from game_message import Point
 
 grille = [
     [0,0,0,0,0],
@@ -8,18 +9,19 @@ grille = [
     [0,0,0,0,0]
 ]
 
+
 # point: (i,j)
 def neighbors(grille, point):
-    i,j = point
+    i,j = point.y, point.x
     neighbors = []
     if i > 0:
-        neighbors.append((i-1, j))
+        neighbors.append(Point(i-1, j))
     if j > 0:
-        neighbors.append((i, j-1))
+        neighbors.append(Point(i, j-1))
     if i < len(grille) - 1:
-        neighbors.append((i+1, j))
+        neighbors.append(Point(i+1, j))
     if j < len(grille[0]) - 1:
-        neighbors.append((i, j+1))
+        neighbors.append(Point(i, j+1))
     return neighbors
 
 # previous: dict[point] = point, end = point
@@ -41,7 +43,7 @@ def bfs(grille, root, obstacles, target):
         point = queue.popleft()
         seen.add(point)
 
-        pi, pj = point
+        pi, pj = point.y, point.x
         if grille[pi][pj] in target:
             return backtrack(previous, point)
 
@@ -49,7 +51,7 @@ def bfs(grille, root, obstacles, target):
             if neighbor in seen:
                 continue
             previous[neighbor] = point
-            ni, nj = neighbor
+            ni, nj = neighbor.y, neighbor.x
             if grille[ni][nj] in obstacles:
                 continue
             else:

@@ -2,6 +2,7 @@ from typing import Dict, List
 from game_message import *
 from bot_message import *
 import random
+from utils import *
 
 
 class Bot:
@@ -16,9 +17,11 @@ class Bot:
         Here is where the magic happens, for now the moves are random. I bet you can do better ;)
         '''
         players_by_id: Dict[int, Player] = game_message.generate_players_by_id_dict()
+        
+        print("Dist enemy to tail: {}".format(min_dist_enemy_to_tail(game_message)))
+        print("Dist me to base: {}".format(min_dist_us_to_base(game_message)))
 
         legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
-
 
         # You can print out a pretty version of the map but be aware that
         # printing out long strings can impact your bot performance (30 ms in average).
