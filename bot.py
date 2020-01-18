@@ -11,9 +11,11 @@ class Bot:
         This method should be use to initialize some variables you will need throughout the game.
         '''
         self.index = 0
+        self.lastPosition = Point(-10, -10)
 
     def getNextMove(self):
-        square = [Move.FORWARD, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD]
+
+        square = [Move.FORWARD, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.TURN_LEFT, Move.FORWARD, Move.FORWARD]
         moveForward2 = [Move.FORWARD, Move.FORWARD]
         sequence = square * 2 + moveForward2 + square + [Move.TURN_RIGHT] + square[1:] + moveForward2 + square + [Move.TURN_RIGHT] + moveForward2
 
@@ -27,6 +29,13 @@ class Bot:
         Here is where the magic happens, for now the moves are random. I bet you can do better ;)
         '''
         players_by_id: Dict[int, Player] = game_message.generate_players_by_id_dict()
+
+        me = players_by_id[game_message.game.player_id]
+
+        if (abs(self.lastPosition.x - me.position.x) + abs(self.lastPosition.y - me.position.y) != 1):
+            self.index = 0
+
+        self.lastPosition = me.position
 
         legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
 
