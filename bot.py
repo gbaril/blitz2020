@@ -51,28 +51,30 @@ class Bot:
         players_by_id: Dict[int, Player] = game_message.generate_players_by_id_dict()
         me = get_me(game_message)
 
-        # rewrite the map :3
-        for case in me.tail:
-            game_message.game.map[case.y][case.x] = TileType.OUR_TAIL.value
-        game_message.game.map[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
+        try:
+            # rewrite the map :3
+            for case in me.tail:
+                game_message.game.map[case.y][case.x] = TileType.OUR_TAIL.value
+            game_message.game.map[me.tail[0].y][me.tail[0].x] = TileType.END_TAIL.value
 
-        direction = run(game_message)
-        if direction is None: #SI ON NE RUN PAS
-            direction = attack_doritos(game_message)
-            if direction is None: #SI PAS DE DORITOS, ENNEMY, RANDOM
-                print("RANDOM")
-                legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
-                direction = random.choice(legal_moves)
+            direction = run(game_message)
+            if direction is None: #SI ON NE RUN PAS
+                direction = attack_doritos(game_message)
+                if direction is None: #SI PAS DE DORITOS, ENNEMY, RANDOM
+                    print("RANDOM")
+                    legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
+                    direction = random.choice(legal_moves)
+                else:
+                    print("ATTACK")
+                    direction = move_for_next_position(me.position, direction, me.direction)
             else:
-                print("ATTACK")
+                print("RUN")
                 direction = move_for_next_position(me.position, direction, me.direction)
-        else:
-            print("RUN")
-            direction = move_for_next_position(me.position, direction, me.direction)
+            return direction
+        except:
+            legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
+            return random.choice(legal_moves)
 
-        #print(game_message.game.pretty_map)
-
-        return direction
 
     def get_legal_moves_for_current_tick(self, game: Game, players_by_id: Dict[int, Player]) -> List[Move]:
         '''
