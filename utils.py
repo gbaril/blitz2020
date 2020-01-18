@@ -23,6 +23,23 @@ def min_dist_enemy_to_tail(game_message: GameMessage):
                     min_path = path
     return (min_dist, min_path)
 
+def min_dist_us_to_enemy(game_message: GameMessage):
+    min_dist = 1000000
+    min_path = None
+
+    me = get_me(game_message)
+    grille = game_message.game.map
+
+    for player in game_message.players:
+        if player.id != me.id:
+            for case in player.tail:
+                path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value], case)
+                dist = len(path)
+                if dist < min_dist:
+                    min_dist = dist
+                    min_path = path
+    return (min_dist, min_path)
+
 def min_dist_us_to_base(game_message: GameMessage):
     me = get_me(game_message)
     grille = game_message.game.map

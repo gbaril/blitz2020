@@ -4,6 +4,7 @@ from bot_message import *
 import random
 from utils import *
 from bfs_lib import bfs
+from attack import attack
 
 def move_for_next_position(start, dest, direction):
     delta = (dest.x - start.x, dest.y - start.y)
@@ -54,29 +55,14 @@ class Bot:
         print("Dist enemy to tail: {}".format(min_dist_enemy_to_tail(game_message)))
         print("Dist me to base: {}".format(min_dist_us_to_base(game_message)))
 
-        legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
+        direction = attack(game_message)
+        if direction is None:
+            legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
+            direction = random.choice(legal_moves)
+        else:
+            direction = move_for_next_position(me.position, direction, me.direction)
 
-       #  target = None
-        #  for player in game_message.players:
-            #  if player.id != me.id:
-                #  target = player.position
-
-        #  if target:
-            #  grille = [[game_message.game.map[i][j] for j in range(len(game_message.game.map[0]))]for i in range(len(game_message.game.map))]
-
-            #  for case in me.tail:
-                #  grille[case.y][case.x] = TileType.TAIL
-
-            #  path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], target)
-
-            #  next_move = move_for_next_position(me.position, path[1], me.direction)
-            #  return next_move
-
-        # You can print out a pretty version of the map but be aware that
-        # printing out long strings can impact your bot performance (30 ms in average).
-        #print(game_message.game.pretty_map)
-
-        return random.choice(legal_moves)
+        return direction
 
     def get_legal_moves_for_current_tick(self, game: Game, players_by_id: Dict[int, Player]) -> List[Move]:
         '''
