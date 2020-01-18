@@ -70,6 +70,8 @@ class Bot:
             print("RUN")
             direction = move_for_next_position(me.position, direction, me.direction)
 
+        #print(game_message.game.pretty_map)
+
         return direction
 
     def get_legal_moves_for_current_tick(self, game: Game, players_by_id: Dict[int, Player]) -> List[Move]:

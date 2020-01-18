@@ -1,4 +1,5 @@
 from utils import *
+import sys
 
 def attack(game_message: GameMessage):
     dist, path = min_dist_us_to_enemy(game_message)
@@ -30,9 +31,15 @@ def run(game_message: GameMessage):
         print("oops")
         return None
 
+    me = get_me(game_message)
+    grille = game_message.game.map
+    if grille[me.position.y][me.position.x] == TileType.CONQUERED.value + str(me.id) or grille[me.position.y][me.position.x] == TileType.END_TAIL.value:
+        return None
+
+
     dist_utb, path_utb = min_dist_us_to_base(game_message)
 
-    if dist_ett <= dist_utb + 1:
+    if dist_ett <= dist_utb + 3:
         return path_utb[1]
     print("oh bou")
     print("enemy to tail : {}".format(dist_ett))

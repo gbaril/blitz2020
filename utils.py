@@ -96,7 +96,7 @@ def min_dist_us_to_base(game_message: GameMessage):
                     if grille[i][j+1] == our:
                         tous_a_nous = False
                 if not tous_a_nous:
-                    path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.TAIL.value], Point(i, j))
+                    path = bfs(grille, me.position, [TileType.ASTEROIDS.value, TileType.BLACK_HOLE.value, TileType.OUR_TAIL.value], Point(j, i))
                     dist = len(path)
                     if dist < min_dist:
                         min_dist = dist
