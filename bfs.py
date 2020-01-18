@@ -11,16 +11,16 @@ grille = [
 
 # point: (i,j)
 def neighbors(grille, point):
-    i,j = point.x, point.y
+    i,j = point
     neighbors = []
     if i > 0:
-        neighbors.append(Point(i-1, j))
+        neighbors.append((i-1, j))
     if j > 0:
-        neighbors.append(Point(i, j-1))
+        neighbors.append((i, j-1))
     if i < len(grille) - 1:
-        neighbors.append(Point(i+1, j))
+        neighbors.append((i+1, j))
     if j < len(grille[0]) - 1:
-        neighbors.append(Point(i, j+1))
+        neighbors.append((i, j+1))
     return neighbors
 
 # previous: dict[point] = point, end = point
@@ -41,9 +41,8 @@ def bfs(grille, root, obstacles, target):
     while queue:
         point = queue.popleft()
         seen.add(point)
-        #print(point)
 
-        pi, pj = point.x, point.y
+        pi, pj = point
         if grille[pi][pj] in target:
             return backtrack(previous, point)
 
@@ -51,7 +50,7 @@ def bfs(grille, root, obstacles, target):
             if neighbor in seen:
                 continue
             previous[neighbor] = point
-            ni, nj = neighbor.x, neighbor.y
+            ni, nj = neighbor
             if grille[ni][nj] in obstacles:
                 continue
             else:
