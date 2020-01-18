@@ -30,7 +30,7 @@ def min_dist_us_to_base(game_message: GameMessage):
     for case in me.tail:
         grille[case.y][case.x] = TileType.TAIL
 
-    grille[me.tail[0].x][me.tail[0].y] = TileType.TAIL
+    grille[me.tail[0].x][me.tail[0].y] = TileType.END_TAIL
 
     our = TileType.CONQUERED.value + str(me.id)
 
