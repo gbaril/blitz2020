@@ -56,23 +56,21 @@ class Bot:
 
         legal_moves = self.get_legal_moves_for_current_tick(game=game_message.game, players_by_id=players_by_id)
 
-        target = None
-        for player in game_message.players:
-            if player.id != me.id:
-                target = player.position
+       #  target = None
+        #  for player in game_message.players:
+            #  if player.id != me.id:
+                #  target = player.position
 
-        if target:
-            grille = [[game_message.game.map[i][j] for j in range(len(game_message.game.map[0]))]for i in range(len(game_message.game.map))]
+        #  if target:
+            #  grille = [[game_message.game.map[i][j] for j in range(len(game_message.game.map[0]))]for i in range(len(game_message.game.map))]
 
-            for case in me.tail:
-                grille[case.y][case.x] = TileType.TAIL
+            #  for case in me.tail:
+                #  grille[case.y][case.x] = TileType.TAIL
 
-            path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], target)
-            #  print(path)
+            #  path = bfs(grille, me.position, [TileType.ASTEROIDS, TileType.BLACK_HOLE, TileType.TAIL], target)
 
-            next_move = move_for_next_position(me.position, path[1], me.direction)
-            #  print(next_move)
-            return next_move
+            #  next_move = move_for_next_position(me.position, path[1], me.direction)
+            #  return next_move
 
         # You can print out a pretty version of the map but be aware that
         # printing out long strings can impact your bot performance (30 ms in average).

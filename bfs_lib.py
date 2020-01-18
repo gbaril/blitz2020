@@ -13,23 +13,24 @@ grid = [
 ]
 
 def bfs(matrix, start, obstacles, target):
+    new_matrix = []
     for i, row in enumerate(matrix):
+        new_matrix.append([])
         for j, col in enumerate(row):
             if matrix[i][j] in obstacles:
-                matrix[i][j] = -1
+                new_matrix[i].append(-1)
             else:
-                matrix[i][j] = 1
+                new_matrix[i].append(1)
 
-    grid = Grid(matrix=matrix)
+    grid = Grid(matrix=new_matrix)
 
     start = grid.node(start.x, start.y)
     end = grid.node(target.x, target.y)
 
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
     path, runs = finder.find_path(start, end, grid)
-
-    print('operations:', runs, 'path length:', len(path))
-    print(grid.grid_str(path=path, start=start, end=end))
+    #  print('operations:', runs, 'path length:', len(path))
+    #  print(grid.grid_str(path=path, start=start, end=end))
 
     return list(map(lambda p: Point(p[0], p[1]), path))
 
